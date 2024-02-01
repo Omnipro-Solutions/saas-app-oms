@@ -1,0 +1,82 @@
+// La tabla User representa a los usuarios del sistema.
+Table User {
+  id Int [primary key, note: 'Identificador único para cada usuario']
+  password Varchar [note: 'Contraseña del usuario']
+  last_login Timestamp [null, note: 'Fecha y hora del último inicio de sesión']
+  is_superuser Bool [note: 'Indica si el usuario es un superusuario']
+  username Varchar [unique, note: 'Nombre de usuario, único en el sistema']
+  first_name Varchar [note: 'Nombre del usuario']
+  last_name Varchar [note: 'Apellido del usuario']
+  email Varchar [note: 'Correo electrónico del usuario']
+  is_staff Bool [note: 'Indica si el usuario puede acceder al sitio de administración']
+  is_active Bool [note: 'Indica si el usuario está activo']
+  date_joined Timestamp [note: 'Fecha y hora en que el usuario se unió al sistema']
+}
+
+// La tabla Config almacena configuraciones para las plataformas OMS y Magento, incluyendo los detalles de autenticación.
+Table Config {
+  id Int [primary key, note: 'Identificador único de la configuración']
+  base_url Varchar [note: 'Url base del core ']
+  auth JSON
+  token JSON
+}
+
+
+// La tabla Tenant representa a un inquilino o cliente del sistema.
+Table Tenant {
+  id Int [primary key, note: 'Identificador único del inquilino']
+  name Varchar [note: 'Nombre del inquilino']
+  description Varchar [note: 'Descripción del inquilino']
+  code Varchar [note: 'Codigo del inquilino']
+  cliend_id Varchar [note: '']
+  cliend_secret Varchar [note: '']
+}
+
+// La tabla Operation almacena tareas asociadas a operaciones.
+Table Operation {
+  id Int [primary key, note: 'Identificador único de la operación']
+  name Varchar [note: 'Nombre de la operación']
+  dst Varchar [note: 'Indicador de quien es el destino la peticion ASAP o OMS']
+  score Enum [note: 'low, higt, medium, Indica la urgencia de las task relacionadas a la operacion']
+  endpoint_url Varchar [note: 'URL del endpoint de destino']
+  http_method Varchar [note: 'Método HTTP a utilizar, como GET, POST, PUT, DELETE']
+  timeout Int [note: 'Tiempo máximo en segundos para esperar la respuesta']
+  auth_type Varchar [note: 'Tipo de autenticación, por ejemplo, None, Basic, Bearer, etc.']
+  headers Text [note: 'Encabezados HTTP personalizados en formato JSON']
+}
+
+Table OperationType {
+  id Int
+  code Varchar
+  name Varchar
+}
+
+Table TenantOperation {
+  id Int [primary key, note: 'Identificador único de la relación']
+  tenant_id Int [ref: > Tenant.id, note: 'ID del inquilino']
+  operation_id Int [ref: > Operation.id, note: 'ID de la operación']
+  operation_type_id Int [ref: > OperationType.id]
+  config_id Int [ref: > Config.id]
+
+  //unique tenant_id y operation_type_id
+}
+
+
+// La tabla OperationTask almacena tareas asociadas a operaciones.
+Table Task {
+  id Int [primary key, note: 'Identificador único de la tarea']
+  tenant_id Int [ref: > Tenant.id, note: 'ID del Tenant asociada']
+  operation_id Int [ref: > Operation.id, note: 'ID del Tenant asociada']
+  status Enum [note: 'Estado actual de la tarea, waiting, error, success']
+  body_src Varchar [note: 'Body de entrada para la tarea']
+  headers_src Varchar [note: 'Cabeceras de entrada para la tarea']
+  params_src Varchar [note: 'Parametros de entrada para la tarea']
+  response_src Varchar [note: 'Respuesta recibida de la entrada']
+  url_src Varchar [note: 'URL de entrada para la tarea, url endpoint igreso']
+  body_dst Varchar [note: 'Body de salida de la tarea hacia el destino']
+  headers_dst Varchar [note: 'Cabeceras de entrada para la tarea']
+  params_dst Varchar [note: 'Parametros de entrada para la tarea']
+  response_dst Varchar [note: 'Respuesta enviada a la salida']
+  url_dst Varchar [note: 'URL de salida para la tarea']
+  time Varchar [note: 'Tiempo asociado a lo que costo procesar tarea']
+}
