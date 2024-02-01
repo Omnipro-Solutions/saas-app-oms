@@ -11,7 +11,7 @@ DESCRIPTION = "Python library designed to be a apps for OMS Django apps."
 VERSION = "0.0.0"
 PACKAGE_NAME = "omni-pro-app-oms"
 AUTHOR = "OMNI.PRO"
-AUTHOR_EMAIL = "development@omni_pro_oms.pro"
+AUTHOR_EMAIL = "development@omni.pro"
 URL = "https://github.com/Omnipro-Solutions/saas-app-oms"
 INSTALL_REQUIRES = [
     "Django==5.0",
