@@ -22,7 +22,7 @@ INSTALL_REQUIRES = [
     "django-json-widget==1.1.1",
     "django-auditlog==2.3.0",
     "requests-oauthlib==1.3.1",
-    "omni-pro-app-base==0.0.4",
+    "omni-pro-app-base==0.0.5",
 ]
 # with open(HERE / "requirements.txt") as f:
 #     INSTALL_REQUIRES = f.read().splitlines()

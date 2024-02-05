@@ -6,7 +6,7 @@ djangorestframework==3.14.0
 django-oauth-toolkit==2.3.0 # Tokenización endpoints, vistas
 django-json-widget==1.1.1
 django-auditlog==2.3.0  # Para hacer campos de auditoria en los modelos
-omni-pro-app-base==0.0.4
+omni-pro-app-base==0.0.5
 
 
 # App
