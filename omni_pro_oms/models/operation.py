@@ -11,6 +11,18 @@ SCORE_CHOICES = (
     ("critical", "Critical"),
 )
 
+HTTP_METHOD_CHOICES = (
+    ("GET", "GET"),
+    ("POST", "POST"),
+    ("PUT", "PUT"),
+    ("DELETE", "DELETE"),
+    ("PATCH", "PATCH"),
+    ("OPTIONS", "OPTIONS"),
+    ("HEAD", "HEAD"),
+    ("CONNECT", "CONNECT"),
+    ("TRACE", "TRACE"),
+)
+
 
 class Operation(OmniModel):
     name = models.CharField(max_length=255, verbose_name=_("Name"))
@@ -19,7 +31,7 @@ class Operation(OmniModel):
         choices=SCORE_CHOICES, max_length=255, verbose_name=_("Score"), help_text=_("Level of priority")
     )
     endpoint_url = models.CharField(max_length=255, verbose_name=_("Endpoint URL"))
-    http_method = models.CharField(max_length=255, verbose_name=_("HTTP Method"))
+    http_method = models.CharField(choices=HTTP_METHOD_CHOICES, max_length=255, verbose_name=_("HTTP Method"))
     timeout = models.IntegerField(verbose_name=_("Timeout"), help_text=_("In seconds"))
     auth_type = models.CharField(max_length=255, verbose_name=_("Auth Type"), help_text=_("Basic, Bearer, etc."))
     headers = models.JSONField(verbose_name=_("Headers"), blank=True, null=True)
