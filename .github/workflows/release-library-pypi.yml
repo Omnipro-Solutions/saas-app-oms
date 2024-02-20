@@ -60,4 +60,4 @@ jobs:
       - name: Publish package to Custom PYPI
         run: |
           pip install twine
-          twine upload --repository-url https://pypi.omni.pro/root/omni-pro-app-oms/ -u ${{ secrets.DEVPI_USER }} -p ${{ secrets.DEVPI_PASSWORD }} dist/*
+          twine upload --repository-url https://pypi.omni.pro/root/omni-pro-app/ -u ${{ secrets.DEVPI_USER }} -p ${{ secrets.DEVPI_PASSWORD }} dist/*
