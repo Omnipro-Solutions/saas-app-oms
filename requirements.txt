@@ -1,5 +1,5 @@
 setuptools==65.5.1
-Django==5.0
+Django==5.0.2
 environs==9.5.0
 django-jazzmin==2.6.0
 djangorestframework==3.14.0
