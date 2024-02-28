@@ -1,6 +1,8 @@
+import requests
 from auditlog.models import AuditlogHistoryField
 from auditlog.registry import auditlog
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from omni_pro_base.models import OmniModel
 
@@ -32,6 +34,35 @@ class TenantOperation(OmniModel):
 
     def __str__(self):
         return f"{self.tenant_id.name} - {self.operation_type_id.name}"
+
+    def get_oms_token(self):
+        try:
+            config = self.config_id
+
+            if not config.token.get("token") or config.token.get("expired") <= timezone.now():
+                token_response = requests.post(
+                    config.base_url + config.auth.get("token_url"),
+                    json={
+                        "client_id": self.tenant_id.client_id,
+                        "client_secret": self.tenant_id.client_secret,
+                        "tenant": self.tenant_id.code,
+                    },
+                )
+                if token_response.status_code != 200:
+                    raise Exception(f"Token request failed with status code {token_response.status_code}")
+                token_response_data = token_response.json()
+
+                config.token["token"] = token_response_data["authentication_result"]["token"]
+                config.token["expired"] == timezone.now() + timezone.timedelta(
+                    seconds=token_response_data["authentication_result"]["expires_in"]
+                )
+                config.save()
+
+            return config.token
+
+        except Tenant.DoesNotExist:
+            print(f"Tenant with code {self.code} does not exist.")
+            raise Exception(f"Tenant with code {self.code} does not exist.")
 
     class Meta:
         constraints = [

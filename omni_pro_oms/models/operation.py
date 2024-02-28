@@ -6,13 +6,33 @@ from omni_pro_base.models import OmniModel
 
 
 class Operation(OmniModel):
+
+    class HttpMethod(models.TextChoices):
+        GET = "GET", _("GET")
+        POST = "POST", _("POST")
+        PUT = "PUT", _("PUT")
+        DELETE = "DELETE", _("DELETE")
+        PATCH = "PATCH", _("PATCH")
+        OPTIONS = "OPTIONS", _("OPTIONS")
+        HEAD = "HEAD", _("HEAD")
+        CONNECT = "CONNECT", _("CONNECT")
+        TRACE = "TRACE", _("TRACE")
+
+    class Score(models.TextChoices):
+        LOW = "low", _("Low")
+        MEDIUM = "medium", _("Medium")
+        HIGH = "high", _("High")
+        CRITICAL = "critical", _("Critical")
+
     name = models.CharField(max_length=255, verbose_name=_("Name"))
     destination = models.CharField(max_length=255, verbose_name=_("Destination"))
-    score = models.IntegerField(verbose_name="Score")
+    score = models.CharField(
+        choices=Score.choices, max_length=255, verbose_name=_("Score"), help_text=_("Level of priority")
+    )
     endpoint_url = models.CharField(max_length=255, verbose_name=_("Endpoint URL"))
-    http_method = models.CharField(max_length=255, verbose_name=_("HTTP Method"))
-    timeout = models.IntegerField(verbose_name=_("Timeout"))
-    auth_type = models.CharField(max_length=255, verbose_name=_("Auth Type"))
+    http_method = models.CharField(choices=HttpMethod.choices, max_length=255, verbose_name=_("HTTP Method"))
+    timeout = models.IntegerField(verbose_name=_("Timeout"), help_text=_("In seconds"))
+    auth_type = models.CharField(max_length=255, verbose_name=_("Auth Type"), help_text=_("OAUTH, Bearer, etc."))
     headers = models.JSONField(verbose_name=_("Headers"), blank=True, null=True)
 
     history = AuditlogHistoryField()
