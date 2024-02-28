@@ -14,7 +14,7 @@ class Config(OmniModel):
     history = AuditlogHistoryField()
 
     def __str__(self):
-        return self.base_url
+        return self.name
 
     class Meta:
         verbose_name = _("Configuration")
