@@ -1,12 +1,18 @@
 from requests_oauthlib import OAuth1
 import requests
+from models.tenant_operation import TenantOperation
 
-def get_api(self, config, operation, body=None):
-    headers = operation.headers
+def call_api_request(self, tenant_operation: TenantOperation, body=None, **kwargs):
+    headers = tenant_operation.operation_id.headers
+    config = tenant_operation.config_id
+    url = kwargs.get("url")
     
+    if not url:
+        url = tenant_operation.config_id.base_url + tenant_operation.operation_id.endpoint_url
+        
     request_params = {
-        "method": operation.http_method,
-        "url": config.base_url,
+        "method": tenant_operation.operation_id.http_method,
+        "url": url,
         "headers": headers
     }
     
