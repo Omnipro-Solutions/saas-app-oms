@@ -2,10 +2,6 @@ from requests_oauthlib import OAuth1
 import requests
 from omni_pro_oms.models.tenant_operation import TenantOperation
 from omni_pro_oms.models.tenant import Tenant
-from omni_sdk_oms.openapi_client.api.default_api import DefaultApi
-from omni_sdk_oms.openapi_client.models.user_token import UserToken
-from omni_sdk_oms.openapi_client.api_client import ApiClient
-from omni_sdk_oms.openapi_client.configuration import Configuration
 
 import json
 
