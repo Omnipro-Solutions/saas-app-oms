@@ -3,17 +3,25 @@ from omni_pro_oms import utils
 import json
 import requests
 
+
 base_url = "https://integration-core-oms-v3.omni.pro"
 
 
 class ApiClient:
     def __init__(self, tenant: Tenant, timeout=30) -> None:
-
         self.tenant = tenant
         self.timeout = timeout
         self.token = self.get_auth_token()
+        self._set_api_models()
 
-    def call_api(self, method: str, endpoint, **kwargs) -> dict:
+    def _set_api_models(self):
+        from omni_pro_oms.core.sale.order import OrderApi
+        from omni_pro_oms.core.stock.picking import PickingApi
+
+        self.order = OrderApi(self)
+        self.picking = PickingApi(self)
+
+    def call_api(self, method: str, endpoint: str, token: str = None, **kwargs) -> dict:
         kwargs.update({"timeout": self.timeout})
         headers = {"Accept": "application/json", "Authorization": self.token}
         url = f"{base_url}{endpoint}"
