@@ -21,7 +21,7 @@ class ApiClient:
         self.order = OrderApi(self)
         self.picking = PickingApi(self)
 
-    def call_api(self, method: str, endpoint: str, token: str = None, **kwargs) -> dict:
+    def call_api(self, method: str, endpoint: str, **kwargs) -> dict:
         kwargs.update({"timeout": self.timeout})
         headers = {"Accept": "application/json", "Authorization": self.token}
         url = f"{base_url}{endpoint}"
