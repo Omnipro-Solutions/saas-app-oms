@@ -9,7 +9,7 @@ from omni_sdk_oms.openapi_client.configuration import Configuration
 
 import json
 
-oms_base_url = "https://integration-core-oms-v3.omni.pro"
+
 
 
 def call_http_request(tenant_operation: TenantOperation, body=None, **kwargs):
@@ -49,28 +49,3 @@ def call_http_request(tenant_operation: TenantOperation, body=None, **kwargs):
     response = requests.request(**request_params)
 
     return response
-
-
-def get_oms_auth_token(tenant: Tenant):
-    url = f"{oms_base_url}/api/v1/auth/token"
-
-    payload = json.dumps(
-        {
-            "client_secret": tenant.client_secret,
-            "client_id": tenant.client_id,
-            "tenant": tenant.code,
-        }
-    )
-    headers = {"Content-Type": "application/json"}
-    response = requests.request("POST", url, headers=headers, data=payload)
-    response.raise_for_status()
-    print("token status: ", response.status_code)
-    return response.json().get("authentication_result", {}).get("token")
-
-
-def call_oms_api(method: str, endpoint: str, token: str, **kwargs):
-    headers = {"Accept": "application/json", "Authorization": token}
-    url = f"{oms_base_url}{endpoint}"
-    response = requests.request(method, url, headers=headers, **kwargs)
-    response.raise_for_status()
-    return response.json()
