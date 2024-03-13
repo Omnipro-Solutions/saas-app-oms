@@ -18,6 +18,7 @@ class TaskOperation:
             name=name,
             tenant_id=tenant_operation.tenant_id,
             operation_id=tenant_operation.operation_id,
+            tenant_operation_id=tenant_operation,
             status="waiting",
             body_src=request.data,
             headers_src=request.headers._store,
