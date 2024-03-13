@@ -17,9 +17,11 @@ class ApiClient:
     def _set_api_models(self):
         from omni_pro_oms.core.sale.order import OrderApi
         from omni_pro_oms.core.stock.picking import PickingApi
+        from omni_pro_oms.core.rules.compute_method import ComputeMethodApi
 
         self.order = OrderApi(self)
         self.picking = PickingApi(self)
+        self.compute_method = ComputeMethodApi(self)
 
     def call_api(self, method: str, endpoint: str, **kwargs) -> dict:
         kwargs.update({"timeout": self.timeout})

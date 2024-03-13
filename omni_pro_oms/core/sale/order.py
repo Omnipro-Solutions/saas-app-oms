@@ -6,6 +6,6 @@ class OrderApi:
     def __init__(self, api_client: ApiClient):
         self.api_client = api_client
 
-    def get_orders(self, **kwargs):
+    def get_api(self, **kwargs):
         data = self.api_client.call_api(method="GET", endpoint=endpoint_order, **kwargs)
         return data.get("orders")
