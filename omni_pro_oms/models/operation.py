@@ -23,6 +23,13 @@ class Operation(OmniModel):
         MEDIUM = "medium", _("Medium")
         HIGH = "high", _("High")
         CRITICAL = "critical", _("Critical")
+        
+    class AuthType(models.TextChoices):
+        TOKEN = "token",
+        BEARER_TOKEN = "bearer_token",
+        API_KEY = "api_key",
+        AUTH2 = "auth2",
+        AUTH1 = "auth1"
 
     name = models.CharField(max_length=255, verbose_name=_("Name"))
     destination = models.CharField(max_length=255, verbose_name=_("Destination"))
@@ -32,7 +39,7 @@ class Operation(OmniModel):
     endpoint_url = models.CharField(max_length=255, verbose_name=_("Endpoint URL"))
     http_method = models.CharField(choices=HttpMethod.choices, max_length=255, verbose_name=_("HTTP Method"))
     timeout = models.IntegerField(verbose_name=_("Timeout"), help_text=_("In seconds"))
-    auth_type = models.CharField(max_length=255, verbose_name=_("Auth Type"), help_text=_("OAUTH, Bearer, etc."))
+    auth_type = models.CharField(choices=AuthType.choices, max_length=255, verbose_name=_("Auth Type"))
     headers = models.JSONField(verbose_name=_("Headers"), blank=True, null=True)
 
     history = AuditlogHistoryField()
