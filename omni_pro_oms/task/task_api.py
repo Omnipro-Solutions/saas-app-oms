@@ -2,7 +2,7 @@ from omni_pro_oms.models import Operation, OperationType, Tenant, TenantOperatio
 from omni_pro_oms import utils
 from omni_pro_oms.core.api_client import ApiClient
 from requests_oauthlib import OAuth1
-import requests
+from requests import Response
 
 
 class TaskApi(ApiClient):
@@ -10,7 +10,5 @@ class TaskApi(ApiClient):
         super().__init__(tenant=task.tenant_id, timeout=timeout)
         self.task: Task = task
 
-    def call_request(self, **kwargs):
-        response = utils.call_request(self.task.tenant_operation_id, **kwargs)
-        response.raise_for_status()
-        return response
+    def call_request(self, **kwargs) -> Response:
+        return utils.call_request(self.task.tenant_operation_id, **kwargs)
