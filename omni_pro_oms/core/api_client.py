@@ -18,11 +18,13 @@ class ApiClient:
         from omni_pro_oms.core.sale.order import OrderApi
         from omni_pro_oms.core.stock.picking import PickingApi
         from omni_pro_oms.core.rules.compute_method import ComputeMethodApi
+        from omni_pro_oms.core.sale.sale import SaleApi
         from omni_pro_oms.core.stock.integration_stock import StockIntegrationApi
 
         self.order = OrderApi(self)
         self.picking = PickingApi(self)
         self.compute_method = ComputeMethodApi(self)
+        self.sale = SaleApi(self)
         self.stock_integration = StockIntegrationApi(self)
 
     def call_api(self, method: str, endpoint: str, **kwargs) -> dict:
