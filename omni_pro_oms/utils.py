@@ -39,6 +39,5 @@ def call_request(tenant_operation: TenantOperation, **kwargs):
 
     elif auth_type == "bearer_token":
         headers["Authorization"] = config.auth.get(auth_type)
-    print("args: ", kwargs)
 
     return requests.request(**kwargs)

@@ -48,5 +48,5 @@ class ApiClient:
         headers = {"Content-Type": "application/json"}
         response = requests.request("POST", url, headers=headers, data=payload)
         response.raise_for_status()
-        print("token status: ", response.status_code)
+
         return response.json().get("authentication_result", {}).get("token")

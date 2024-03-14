@@ -12,6 +12,7 @@ STATUS_CHOICES = (
     ("waiting", "Waiting"),
     ("error", "Error"),
     ("success", "Success"),
+    ("partial_success", "Partial Success"),
 )
 
 
