@@ -19,7 +19,7 @@ class TaskOperation:
             body_src=request.data,
             headers_src=request.headers._store,
             params_src=request.query_params,
-            response_src="",
+            response_src={"success": True, "message": None},
             url_src=request.stream.path if request.stream else "",
             body_dst="",
             headers_dst="",
