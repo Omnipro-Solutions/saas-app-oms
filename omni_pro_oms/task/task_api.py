@@ -16,7 +16,7 @@ class TaskApi(ApiClient):
 
     def call_request(self, update_task: bool = False, **kwargs) -> Response:
         if not kwargs.get("timeout"):
-            kwargs["timeout"] = self.timeout
+            kwargs["timeout"] = self.task.operation_id.timeout
         response: Response = utils.call_request(self.task.tenant_operation_id, **kwargs)
         if update_task:
             self.task_update_from_response(response)
