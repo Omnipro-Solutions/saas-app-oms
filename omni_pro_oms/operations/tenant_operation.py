@@ -7,6 +7,6 @@ class TenantOperationOperation:
         cls, tenant_code: str, operation_type_code: str
     ) -> TenantOperation:
         tenant_operation = TenantOperation.objects.get(
-            tenant_id__code=tenant_code, operation_type_id__code=operation_type_code
+            tenant_id__code=tenant_code, operation_type_id__operation_code=operation_type_code
         )
         return tenant_operation
