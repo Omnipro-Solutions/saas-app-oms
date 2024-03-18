@@ -20,7 +20,6 @@ INSTALL_REQUIRES = [
     "djangorestframework==3.14.0",
     "django-oauth-toolkit==2.3.0",
     "django-json-widget==1.1.1",
-    "django-auditlog==2.3.0",
     "requests-oauthlib==1.3.1",
     "omni-pro-app-base",
 ]
