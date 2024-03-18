@@ -7,13 +7,13 @@ from omni_pro_oms.models import OperationType
 
 
 class OperationTypeAdmin(BaseAdmin):
-    list_display = ("name", "code")
-    search_fields = ("name", "code")
+    list_display = ("name", "operation_code")
+    search_fields = ("name", "operation_code")
     form = OperationTypeAdminForm
 
     def __init__(self, *args, **kwargs):
         super(OperationTypeAdmin, self).__init__(*args, **kwargs)
-        self.fieldsets = ((_("Required Information"), {"fields": ("name", "code")}),) + self.fieldsets
+        self.fieldsets = ((_("Required Information"), {"fields": ("name", "operation_code")}),) + self.fieldsets
 
 
 admin.site.register(OperationType, OperationTypeAdmin)
