@@ -7,10 +7,7 @@ from omni_pro_base.models import OmniModel
 
 class OperationType(OmniModel):
     name = models.CharField(max_length=255, verbose_name=_("Name"))
-    operation_choices = [
-        ('default', 'Select an option'),
-    ]
-    operation_code = models.CharField(choices=operation_choices, max_length=255, verbose_name=_("Operation Code"),
+    operation_code = models.CharField(max_length=255, verbose_name=_("Operation Code"),
                                       default='default')
 
     history = AuditlogHistoryField()
