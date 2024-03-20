@@ -21,6 +21,7 @@ class ApiClient:
         from omni_pro_oms.core.sale.sale import SaleApi
         from omni_pro_oms.core.stock.integration_stock import StockIntegrationApi
         from omni_pro_oms.core.client.client import ClientApi
+        from omni_pro_oms.core.stock.warehouse import WarehouseApi
 
         self.order = OrderApi(self)
         self.picking = PickingApi(self)
@@ -28,6 +29,7 @@ class ApiClient:
         self.sale = SaleApi(self)
         self.stock_integration = StockIntegrationApi(self)
         self.client = ClientApi(self)
+        self.warehouse = WarehouseApi(self)
 
     def call_api(self, method: str, endpoint: str, **kwargs) -> dict:
         kwargs.update({"timeout": self.timeout})
