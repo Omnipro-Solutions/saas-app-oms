@@ -1,7 +1,6 @@
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
+from omni_pro_oms.permissions import TokenValidScope
 from rest_framework import views
 
 
 class OMNIAPIView(views.APIView):
-    permission_classes = [TokenHasReadWriteScope]
-    required_scopes = ["read", "write"]
+    permission_classes = [TokenValidScope]
