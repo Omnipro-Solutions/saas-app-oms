@@ -30,6 +30,7 @@ class Operation(OmniModel):
         API_KEY = "api_key",
         AUTH2 = "auth2",
         AUTH1 = "auth1"
+        CUSTOM = "custom"
 
     name = models.CharField(max_length=255, verbose_name=_("Name"))
     destination = models.CharField(max_length=255, verbose_name=_("Destination"))
