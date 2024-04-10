@@ -1,8 +1,8 @@
-from omni_pro_oms.models import Operation, OperationType, Tenant, TenantOperation, Task
-from omni_pro_oms import utils
 import json
-import requests
 
+import requests
+from omni_pro_oms import utils
+from omni_pro_oms.models import Operation, OperationType, Task, Tenant, TenantOperation
 
 base_url = "https://integration-core-oms-v3.omni.pro"
 
@@ -15,12 +15,13 @@ class ApiClient:
         self._set_api_models()
 
     def _set_api_models(self):
-        from omni_pro_oms.core.sale.order import OrderApi
-        from omni_pro_oms.core.stock.picking import PickingApi
+        from omni_pro_oms.core.client.client import ClientApi
+        from omni_pro_oms.core.rules.appointment import AppointmentApi
         from omni_pro_oms.core.rules.compute_method import ComputeMethodApi
+        from omni_pro_oms.core.sale.order import OrderApi
         from omni_pro_oms.core.sale.sale import SaleApi
         from omni_pro_oms.core.stock.integration_stock import StockIntegrationApi
-        from omni_pro_oms.core.client.client import ClientApi
+        from omni_pro_oms.core.stock.picking import PickingApi
         from omni_pro_oms.core.stock.warehouse import WarehouseApi
 
         self.order = OrderApi(self)
@@ -30,14 +31,20 @@ class ApiClient:
         self.stock_integration = StockIntegrationApi(self)
         self.client = ClientApi(self)
         self.warehouse = WarehouseApi(self)
+        self.appointment = AppointmentApi(self)
 
-    def call_api(self, method: str, endpoint: str, **kwargs) -> dict:
+    def call_api(
+        self, method: str, endpoint: str, raise_status: bool = True, response_is_json: bool = True, **kwargs
+    ) -> dict:
         kwargs.update({"timeout": self.timeout})
         headers = {"Accept": "application/json", "Authorization": self.token}
         url = f"{base_url}{endpoint}"
         response = requests.request(method, url, headers=headers, **kwargs)
-        response.raise_for_status()
-        return response.json()
+        if raise_status:
+            response.raise_for_status()
+        if response_is_json:
+            return response.json()
+        return response
 
     def get_auth_token(self):
         url = f"{base_url}/api/v1/auth/token"
