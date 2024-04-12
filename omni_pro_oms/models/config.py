@@ -26,6 +26,9 @@ def get_default_auth():
             "access_token": "gjaf2iyc63jpeysoj9p5zd6li",
             "token_secret": "8w8rt9agjaf2iyc63jpeysoj9p5zd6li",
         },
+        "custom": {
+            "key": "value",
+        },
     }
 
 

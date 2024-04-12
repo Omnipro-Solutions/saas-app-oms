@@ -9,3 +9,7 @@ class OrderApi:
     def get_api(self, **kwargs):
         data = self.api_client.call_api(method="GET", endpoint=endpoint_order, **kwargs)
         return data.get("orders")
+
+    def put_api(self, **kwargs):
+        data = self.api_client.call_api(method="PUT", endpoint=endpoint_order, **kwargs)
+        return data.get("order")
