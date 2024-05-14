@@ -6,10 +6,11 @@ class AppointmentApi:
         self.api_client = api_client
 
     def post_api(self, endpoint, **kwargs):
-        data = self.api_client.call_api(
+        response = self.api_client.call_api(
             method="POST",
             endpoint=endpoint,
             raise_status=False,
+            response_is_json=False,
             **kwargs,
         )
-        return data
+        return response
