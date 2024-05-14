@@ -26,6 +26,8 @@ class ApiClient:
         from omni_pro_oms.core.stock.carrier_utils import CarrierSaveGuideApi
         from omni_pro_oms.core.sale.state import StateApi
         from omni_pro_oms.core.catalog.product import ProductApi
+        from omni_pro_oms.core.sale.order_line import OrderLineApi
+        from omni_pro_oms.core.sale.tax import TaxApi
 
         self.order = OrderApi(self)
         self.picking = PickingApi(self)
@@ -38,6 +40,8 @@ class ApiClient:
         self.carrier_utils = CarrierSaveGuideApi(self)
         self.state = StateApi(self)
         self.product = ProductApi(self)
+        self.order_line = OrderLineApi(self)
+        self.tax = TaxApi(self)
 
     def call_api(
         self, method: str, endpoint: str, raise_status: bool = True, response_is_json: bool = True, **kwargs
