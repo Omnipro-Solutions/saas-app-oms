@@ -5,8 +5,12 @@ class AppointmentApi:
     def __init__(self, api_client: ApiClient):
         self.api_client = api_client
 
-    def post_api(self, endpoint,**kwargs):
-        data = self.api_client.call_api(
-            method="POST", endpoint=endpoint, **kwargs
+    def post_api(self, endpoint, **kwargs):
+        response = self.api_client.call_api(
+            method="POST",
+            endpoint=endpoint,
+            raise_status=False,
+            response_is_json=False,
+            **kwargs,
         )
-        return data.get("result")
+        return response
