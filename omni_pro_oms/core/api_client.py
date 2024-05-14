@@ -25,6 +25,7 @@ class ApiClient:
         from omni_pro_oms.core.stock.warehouse import WarehouseApi
         from omni_pro_oms.core.stock.carrier_utils import CarrierSaveGuideApi
         from omni_pro_oms.core.sale.state import StateApi
+        from omni_pro_oms.core.utilities.file_record import FileRecordApi
         from omni_pro_oms.core.catalog.product import ProductApi
         from omni_pro_oms.core.sale.order_line import OrderLineApi
         from omni_pro_oms.core.sale.tax import TaxApi
@@ -39,6 +40,7 @@ class ApiClient:
         self.appointment = AppointmentApi(self)
         self.carrier_utils = CarrierSaveGuideApi(self)
         self.state = StateApi(self)
+        self.file_record = FileRecordApi(self)
         self.product = ProductApi(self)
         self.order_line = OrderLineApi(self)
         self.tax = TaxApi(self)
