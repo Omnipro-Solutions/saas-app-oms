@@ -1,4 +1,4 @@
-from omni_pro_oms.models import Operation, OperationType, Tenant, TenantOperation, Task
+from omni_pro_oms.models import Operation, OperationType, Task, Tenant, TenantOperation
 from rest_framework.request import Request
 from urllib3 import HTTPResponse
 
@@ -6,9 +6,7 @@ from urllib3 import HTTPResponse
 class TaskOperation:
 
     @classmethod
-    def create_task_from_request(
-        cls, request: Request, tenant_operation: TenantOperation
-    ) -> Task:
+    def create_task_from_request(cls, request: Request, tenant_operation: TenantOperation) -> Task:
         name = f"{tenant_operation.operation_type_id.name} {tenant_operation.tenant_id.name}"
         task = Task.objects.create(
             name=name,
@@ -20,7 +18,7 @@ class TaskOperation:
             headers_src=request.headers._store if request else "",
             params_src=request.query_params if request else "",
             response_src={"success": True, "message": None},
-            url_src=request.stream.path if request else "",
+            url_src=request.stream.path if request and request.stream else "",
             body_dst="",
             headers_dst="",
             params_dst="",
