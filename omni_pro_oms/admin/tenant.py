@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from omni_pro_base.admin import BaseAdmin
-
 from omni_pro_oms.forms import TenantAdminForm
 from omni_pro_oms.models import Tenant
 
@@ -14,7 +13,10 @@ class TenantAdmin(BaseAdmin):
     def __init__(self, *args, **kwargs):
         super(TenantAdmin, self).__init__(*args, **kwargs)
         self.fieldsets = (
-            (_("Required Information"), {"fields": ("name", "description", "code", "client_id", "client_secret")}),
+            (
+                _("Required Information"),
+                {"fields": ("name", "description", "code", "client_id", "client_secret", "base_url")},
+            ),
         ) + self.fieldsets
 
 

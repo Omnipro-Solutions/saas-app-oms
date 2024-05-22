@@ -9,26 +9,26 @@ base_url = "https://integration-core-oms-v3.omni.pro"
 
 class ApiClient:
     def __init__(self, tenant: Tenant, timeout=30) -> None:
-        self.tenant = tenant
+        self.tenant: Tenant = tenant
         self.timeout = timeout
         self.token = self.get_auth_token()
         self._set_api_models()
 
     def _set_api_models(self):
+        from omni_pro_oms.core.catalog.product import ProductApi
         from omni_pro_oms.core.client.client import ClientApi
         from omni_pro_oms.core.rules.appointment import AppointmentApi
         from omni_pro_oms.core.rules.compute_method import ComputeMethodApi
         from omni_pro_oms.core.sale.order import OrderApi
+        from omni_pro_oms.core.sale.order_line import OrderLineApi
         from omni_pro_oms.core.sale.sale import SaleApi
+        from omni_pro_oms.core.sale.state import StateApi
+        from omni_pro_oms.core.sale.tax import TaxApi
+        from omni_pro_oms.core.stock.carrier_utils import CarrierSaveGuideApi
         from omni_pro_oms.core.stock.integration_stock import StockIntegrationApi
         from omni_pro_oms.core.stock.picking import PickingApi
         from omni_pro_oms.core.stock.warehouse import WarehouseApi
-        from omni_pro_oms.core.stock.carrier_utils import CarrierSaveGuideApi
-        from omni_pro_oms.core.sale.state import StateApi
         from omni_pro_oms.core.utilities.file_record import FileRecordApi
-        from omni_pro_oms.core.catalog.product import ProductApi
-        from omni_pro_oms.core.sale.order_line import OrderLineApi
-        from omni_pro_oms.core.sale.tax import TaxApi
 
         self.order = OrderApi(self)
         self.picking = PickingApi(self)
@@ -50,7 +50,7 @@ class ApiClient:
     ) -> dict:
         kwargs.update({"timeout": self.timeout})
         headers = {"Accept": "application/json", "Authorization": self.token}
-        url = f"{base_url}{endpoint}"
+        url = f"{self.tenant.base_url}{endpoint}"
         response = requests.request(method, url, headers=headers, **kwargs)
         if raise_status:
             response.raise_for_status()
@@ -59,7 +59,7 @@ class ApiClient:
         return response
 
     def get_auth_token(self):
-        url = f"{base_url}/api/v1/auth/token"
+        url = f"{self.tenant.base_url}/api/v1/auth/token"
 
         payload = json.dumps(
             {
