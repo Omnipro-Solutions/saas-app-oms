@@ -11,6 +11,7 @@ class Tenant(OmniModel):
     code = models.CharField(max_length=255, verbose_name=_("Code"), unique=True)
     client_id = models.CharField(max_length=255, verbose_name=_("Client ID"))
     client_secret = models.CharField(max_length=255, verbose_name=_("Client Secret"))
+    base_url = models.CharField(max_length=255, verbose_name=_("Base URL"))
 
     history = AuditlogHistoryField()
 
