@@ -14,12 +14,6 @@ AUTHOR = "OMNI.PRO"
 AUTHOR_EMAIL = "development@omni.pro"
 URL = "https://github.com/Omnipro-Solutions/saas-app-oms"
 INSTALL_REQUIRES = [
-    "Django==5.0",
-    "environs==9.5.0",
-    "django-jazzmin==2.6.0",
-    "djangorestframework==3.14.0",
-    "django-oauth-toolkit==2.3.0",
-    "django-json-widget==1.1.1",
     "omni-pro-app-base",
 ]
 # with open(HERE / "requirements.txt") as f:
