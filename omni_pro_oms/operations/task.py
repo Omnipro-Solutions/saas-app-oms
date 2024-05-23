@@ -18,7 +18,7 @@ class TaskOperation:
             headers_src=request.headers._store if request else "",
             params_src=request.query_params if request else "",
             response_src={"success": True, "message": None},
-            url_src=request.stream.path if request and request.stream else "",
+            url_src=request.path if request and request.path else "",
             body_dst="",
             headers_dst="",
             params_dst="",
