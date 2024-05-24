@@ -15,4 +15,11 @@ class TokenValidScope(permissions.BasePermission):
             response = requests.get(url, headers=headers)
             return response.status_code == 200
 
+        token = request.headers.get("token", None)
+        if token:
+            url = settings.AUTH_BASE_URL + "/auth/user/validate/"
+            headers = {"Authorization": f"Token {token}"}
+            response = requests.get(url, headers=headers)
+            return response.status_code == 200
+
         return False
