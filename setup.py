@@ -16,6 +16,9 @@ URL = "https://github.com/Omnipro-Solutions/saas-app-oms"
 INSTALL_REQUIRES = [
     "omni-pro-app-base",
 ]
+
+dependency_links = ["https://pypi.omni.pro/root/omni-pro-app/+simple"]
+
 # with open(HERE / "requirements.txt") as f:
 #     INSTALL_REQUIRES = f.read().splitlines()
 
@@ -34,6 +37,7 @@ setup(
     package_data={"": ["*.pyi", "data/*.csv"]},
     include_package_data=True,
     install_requires=INSTALL_REQUIRES,
+    dependency_links=dependency_links,
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",
