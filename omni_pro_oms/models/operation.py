@@ -38,7 +38,9 @@ class Operation(OmniModel):
         choices=Score.choices, max_length=255, verbose_name=_("Score"), help_text=_("Level of priority")
     )
     endpoint_url = models.CharField(max_length=255, verbose_name=_("Endpoint URL"))
-    http_method = models.CharField(choices=HttpMethod.choices, max_length=255, verbose_name=_("HTTP Method"), null=True)
+    http_method = models.CharField(
+        choices=HttpMethod.choices, max_length=255, verbose_name=_("HTTP Method"), null=True, blank=True
+    )
     timeout = models.IntegerField(verbose_name=_("Timeout"), help_text=_("In seconds"))
     auth_type = models.CharField(choices=AuthType.choices, max_length=255, verbose_name=_("Auth Type"))
     headers = models.JSONField(verbose_name=_("Headers"), blank=True, null=True)
