@@ -48,7 +48,8 @@ class ApiClient:
     def call_api(
         self, method: str, endpoint: str, raise_status: bool = True, response_is_json: bool = True, **kwargs
     ) -> dict:
-        kwargs.update({"timeout": self.timeout})
+        if not kwargs.get("timeout", None):
+            kwargs.update({"timeout": self.timeout})
         headers = {"Accept": "application/json", "Authorization": self.token}
         url = f"{self.tenant.base_url}{endpoint}"
         response = requests.request(method, url, headers=headers, **kwargs)
