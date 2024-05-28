@@ -9,7 +9,7 @@ class SaleApi:
 
     def get_api(self, endpoint, **kwargs):
         data = self.api_client.call_api(method="GET", endpoint=endpoint, **kwargs)
-        return data.get("sales")
+        return data.get("sale")
 
     def post_api(self, endpoint, raise_status=True, response_is_json=True, **kwargs):
         response = self.api_client.call_api(
