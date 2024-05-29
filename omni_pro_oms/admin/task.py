@@ -1,13 +1,13 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from omni_pro_base.admin import BaseAdmin
-
 from omni_pro_oms.forms import TaskAdminForm
 from omni_pro_oms.models import Task
 
 
 class TaskAdmin(BaseAdmin):
     list_display = (
+        "created_at",
         "tenant_id",
         "operation_id",
         "tenant_operation_id",
@@ -15,8 +15,9 @@ class TaskAdmin(BaseAdmin):
         "url_src",
         "url_dst",
         "time",
+        "updated_at",
     )
-    list_filter = ("tenant_id", "operation_id", "status")
+    list_filter = ("tenant_id", "operation_id", "status", "created_at", "updated_at")
     search_fields = ("url_src", "url_dst", "body_src", "body_dst", "time")
     form = TaskAdminForm
 
