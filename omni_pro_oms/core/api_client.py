@@ -1,8 +1,7 @@
 import json
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import requests
-from django.utils import timezone
 from omni_pro_oms import utils
 from omni_pro_oms.models import Operation, OperationType, Task, Tenant, TenantOperation
 
