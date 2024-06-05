@@ -12,6 +12,8 @@ class Tenant(OmniModel):
     client_id = models.CharField(max_length=255, verbose_name=_("Client ID"))
     client_secret = models.CharField(max_length=255, verbose_name=_("Client Secret"))
     base_url = models.CharField(max_length=255, verbose_name=_("Base URL"))
+    token = models.CharField(max_length=255, verbose_name=_("Token"), blank=True, null=True)
+    token_expires_at = models.DateTimeField(verbose_name=_("Token Expires At"), blank=True, null=True)
 
     history = AuditlogHistoryField()
 

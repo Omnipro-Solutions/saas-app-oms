@@ -7,6 +7,7 @@ from omni_pro_oms.models import Task
 
 class TaskAdmin(BaseAdmin):
     list_display = (
+        "item",
         "created_at",
         "tenant_id",
         "operation_id",
@@ -18,7 +19,7 @@ class TaskAdmin(BaseAdmin):
         "updated_at",
     )
     list_filter = ("tenant_id", "operation_id", "status", "created_at", "updated_at")
-    search_fields = ("url_src", "url_dst", "body_src", "body_dst", "time")
+    search_fields = ("item", "url_src", "url_dst", "body_src", "body_dst", "time")
     form = TaskAdminForm
 
     def __init__(self, *args, **kwargs):
@@ -26,7 +27,7 @@ class TaskAdmin(BaseAdmin):
         self.fieldsets = (
             (
                 _("Required Information"),
-                {"fields": ("name", "tenant_id", "operation_id", "status", "time")},
+                {"fields": ("name", "tenant_id", "operation_id", "status", "time", "item")},
             ),
             (
                 _("Source Info"),

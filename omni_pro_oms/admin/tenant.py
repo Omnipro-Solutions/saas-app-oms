@@ -15,7 +15,17 @@ class TenantAdmin(BaseAdmin):
         self.fieldsets = (
             (
                 _("Required Information"),
-                {"fields": ("name", "description", "code", "client_id", "client_secret", "base_url")},
+                {
+                    "fields": (
+                        "name",
+                        "description",
+                        "code",
+                        "client_id",
+                        "client_secret",
+                        "base_url",
+                        "token",
+                    )
+                },
             ),
         ) + self.fieldsets
 

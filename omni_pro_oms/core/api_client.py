@@ -1,6 +1,8 @@
 import json
+from datetime import datetime, timedelta
 
 import requests
+from django.utils import timezone
 from omni_pro_oms import utils
 from omni_pro_oms.models import Operation, OperationType, Task, Tenant, TenantOperation
 
@@ -60,6 +62,12 @@ class ApiClient:
         return response
 
     def get_auth_token(self):
+        if (
+            self.tenant.token_expires_at
+            and (self.tenant.token_expires_at - datetime.now(timezone.utc)).total_seconds() > 300
+        ):
+            return self.tenant.token
+
         url = f"{self.tenant.base_url}/api/v1/auth/token"
 
         payload = json.dumps(
@@ -72,5 +80,12 @@ class ApiClient:
         headers = {"Content-Type": "application/json"}
         response = requests.request("POST", url, headers=headers, data=payload)
         response.raise_for_status()
+        token = response.json().get("authentication_result", {}).get("token")
+        expires_in = response.json().get("authentication_result", {}).get("expires_in")
+
+        if expires_in:
+            self.tenant.token_expires_at = datetime.now(timezone.utc) + timedelta(seconds=expires_in)
+            self.tenant.token = token
+            self.tenant.save()
 
         return response.json().get("authentication_result", {}).get("token")

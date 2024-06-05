@@ -1,8 +1,9 @@
-from omni_pro_oms.models import Task
+import json
+
 from omni_pro_oms import utils
 from omni_pro_oms.core.api_client import ApiClient
+from omni_pro_oms.models import Task
 from requests import Response
-import json
 
 
 class TaskApi(ApiClient):
@@ -22,7 +23,7 @@ class TaskApi(ApiClient):
             self.task_update_from_response(response)
         return response
 
-    def task_update_from_response(self, response: Response):
+    def task_update_from_response(self, response: Response, item: str = None):
         body_dest = json.loads(response.request.body.decode("utf-8"))
         response_dst = json.loads(response.content.decode("utf-8"))
         headers_dst = response.request.headers._store
@@ -34,9 +35,8 @@ class TaskApi(ApiClient):
         self.task.body_dst = body_dest
         self.task.response_dst = response_dst
         self.task.time = time_request
-        self.task.status = self.get_task_status_from_request_status_code(
-            [response.status_code]
-        )
+        self.task.status = self.get_task_status_from_request_status_code([response.status_code])
+        self.task.item = item
         self.task.save()
 
     def get_task_status_from_request_status_code(self, status_codes):

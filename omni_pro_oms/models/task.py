@@ -18,9 +18,7 @@ STATUS_CHOICES = (
 
 class Task(OmniModel):
     name = models.CharField(max_length=256, verbose_name=_("Name"))
-    tenant_id = models.ForeignKey(
-        Tenant, on_delete=models.CASCADE, verbose_name=_("Tenant"), related_name="tasks"
-    )
+    tenant_id = models.ForeignKey(Tenant, on_delete=models.CASCADE, verbose_name=_("Tenant"), related_name="tasks")
     operation_id = models.ForeignKey(
         Operation,
         on_delete=models.CASCADE,
@@ -41,36 +39,17 @@ class Task(OmniModel):
         verbose_name=_("Status"),
     )
     body_src = models.JSONField(verbose_name=_("Body Source"), blank=True, null=True)
-    headers_src = models.JSONField(
-        verbose_name=_("Headers Source"), blank=True, null=True
-    )
-    params_src = models.JSONField(
-        verbose_name=_("Params Source"), blank=True, null=True
-    )
-    response_src = models.JSONField(
-        verbose_name=_("Response Source"), blank=True, null=True
-    )
-    url_src = models.CharField(
-        max_length=256, verbose_name=_("URL Source"), blank=True, null=True
-    )
-    body_dst = models.JSONField(
-        verbose_name=_("Body Destination"), blank=True, null=True
-    )
-    headers_dst = models.JSONField(
-        verbose_name=_("Headers Destination"), blank=True, null=True
-    )
-    params_dst = models.JSONField(
-        verbose_name=_("Params Destination"), blank=True, null=True
-    )
-    response_dst = models.JSONField(
-        verbose_name=_("Response Destination"), blank=True, null=True
-    )
-    url_dst = models.CharField(
-        max_length=256, verbose_name=_("URL Destination"), blank=True, null=True
-    )
-    time = models.IntegerField(
-        verbose_name=_("Time"), help_text=_("In milliseconds"), blank=True, null=True
-    )
+    headers_src = models.JSONField(verbose_name=_("Headers Source"), blank=True, null=True)
+    params_src = models.JSONField(verbose_name=_("Params Source"), blank=True, null=True)
+    response_src = models.JSONField(verbose_name=_("Response Source"), blank=True, null=True)
+    url_src = models.CharField(max_length=256, verbose_name=_("URL Source"), blank=True, null=True)
+    body_dst = models.JSONField(verbose_name=_("Body Destination"), blank=True, null=True)
+    headers_dst = models.JSONField(verbose_name=_("Headers Destination"), blank=True, null=True)
+    params_dst = models.JSONField(verbose_name=_("Params Destination"), blank=True, null=True)
+    response_dst = models.JSONField(verbose_name=_("Response Destination"), blank=True, null=True)
+    url_dst = models.CharField(max_length=256, verbose_name=_("URL Destination"), blank=True, null=True)
+    time = models.IntegerField(verbose_name=_("Time"), help_text=_("In milliseconds"), blank=True, null=True)
+    item = models.CharField(_("Item"), max_length=256, blank=True, null=True)
 
     history = AuditlogHistoryField()
 
