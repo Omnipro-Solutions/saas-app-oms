@@ -8,6 +8,7 @@ django-json-widget==1.1.1
 django-auditlog==2.3.0  # Para hacer campos de auditoria en los modelos
 omni-pro-app-base
 requests==2.31.0
+django-jazzmin-admin-rangefilter==1.0.0
 
 
 # App
