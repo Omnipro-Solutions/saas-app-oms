@@ -1,3 +1,4 @@
+from django import forms
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from omni_pro_base.admin import BaseAdmin
@@ -6,7 +7,15 @@ from omni_pro_oms.models import Tenant
 
 
 class TenantAdmin(BaseAdmin):
-    list_display = ("name", "description", "code", "client_id", "client_secret")
+    list_display = (
+        "name",
+        "description",
+        "code",
+        "client_id",
+        "client_secret",
+        "minutes_remaining",
+        "token_expires_at",
+    )
     search_fields = ("name", "code")
     form = TenantAdminForm
 
@@ -24,6 +33,8 @@ class TenantAdmin(BaseAdmin):
                         "client_secret",
                         "base_url",
                         "token",
+                        "token_expires_at",
+                        "minutes_remaining",
                     )
                 },
             ),

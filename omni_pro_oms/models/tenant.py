@@ -1,3 +1,5 @@
+from datetime import datetime, timezone
+
 from auditlog.models import AuditlogHistoryField
 from auditlog.registry import auditlog
 from django.db import models
@@ -16,6 +18,12 @@ class Tenant(OmniModel):
     token_expires_at = models.DateTimeField(verbose_name=_("Token Expires At"), blank=True, null=True)
 
     history = AuditlogHistoryField()
+
+    @property
+    def minutes_remaining(self):
+        if self.token_expires_at:
+            remaining_time = self.token_expires_at - datetime.now(timezone.utc)
+            return remaining_time.total_seconds() // 60
 
     def __str__(self):
         return self.name
