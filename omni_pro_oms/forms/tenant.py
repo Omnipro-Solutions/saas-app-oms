@@ -6,6 +6,7 @@ class TenantAdminForm(forms.ModelForm):
     minutes_remaining = forms.CharField(
         label="Minutes Remaining", required=False, widget=forms.TextInput(attrs={"disabled": "disabled"})
     )
+    token = forms.CharField(label="Token", required=False, widget=forms.Textarea(attrs={"disabled": "disabled"}))
 
     class Meta:
         model = Tenant

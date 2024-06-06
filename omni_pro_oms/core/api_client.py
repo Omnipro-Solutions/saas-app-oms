@@ -63,7 +63,7 @@ class ApiClient:
     def get_auth_token(self):
         if (
             self.tenant.token_expires_at
-            and (self.tenant.token_expires_at - datetime.now(timezone.utc)).total_seconds() > 300
+            and (self.tenant.token_expires_at - datetime.now(timezone.utc)).total_seconds() > 600
         ):
             return self.tenant.token
 
