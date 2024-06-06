@@ -1,4 +1,3 @@
-from django import forms
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from omni_pro_base.admin import BaseAdmin
