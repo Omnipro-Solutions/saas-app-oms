@@ -16,6 +16,7 @@ class ApiClient:
         self._set_api_models()
 
     def _set_api_models(self):
+        from omni_pro_oms.core.catalog.family import FamilyApi
         from omni_pro_oms.core.catalog.product import ProductApi
         from omni_pro_oms.core.client.client import ClientApi
         from omni_pro_oms.core.rules.appointment import AppointmentApi
@@ -45,6 +46,7 @@ class ApiClient:
         self.product = ProductApi(self)
         self.order_line = OrderLineApi(self)
         self.tax = TaxApi(self)
+        self.family = FamilyApi(self)
 
     def call_api(
         self, method: str, endpoint: str, raise_status: bool = True, response_is_json: bool = True, **kwargs
