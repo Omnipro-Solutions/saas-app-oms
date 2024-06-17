@@ -8,5 +8,7 @@ class FamilyApi:
         self.api_client = api_client
 
     def get_api(self, **kwargs):
-        data = self.api_client.call_api(method="GET", endpoint=endpoint_family, **kwargs)
-        return data.get("families")
+        data = self.api_client.call_api(
+            method="GET", endpoint=endpoint_family, **kwargs, raise_status=False, response_is_json=False
+        )
+        return data
