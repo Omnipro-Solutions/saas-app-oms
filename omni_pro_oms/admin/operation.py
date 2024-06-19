@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from omni_pro_base.admin import BaseAdmin
-
 from omni_pro_oms.forms import OperationAdminForm
 from omni_pro_oms.models import Operation
 
@@ -19,7 +18,14 @@ class OperationAdmin(BaseAdmin):
                 _("Required Information"),
                 {"fields": ("name", "destination", "score", "endpoint_url", "http_method", "timeout", "auth_type")},
             ),
-            (_("Optional Information"), {"fields": ("headers",)}),
+            (
+                _("Optional Information"),
+                {"fields": ("headers",)},
+            ),
+            (
+                _("Clean Task"),
+                {"fields": ("success_clean_task_days", "other_clean_task_days", "packages_to_clean_count")},
+            ),
         ) + self.fieldsets
 
 
