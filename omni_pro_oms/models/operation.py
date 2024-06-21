@@ -42,6 +42,15 @@ class Operation(OmniModel):
     timeout = models.IntegerField(verbose_name=_("Timeout"), help_text=_("In seconds"))
     auth_type = models.CharField(choices=AuthType.choices, max_length=255, verbose_name=_("Auth Type"))
     headers = models.JSONField(verbose_name=_("Headers"), blank=True, null=True)
+    success_clean_task_days = models.IntegerField(
+        verbose_name=_("Success Clean Task Days"), help_text=_("In days"), null=True, blank=True
+    )
+    other_clean_task_days = models.IntegerField(
+        verbose_name=_("Other Clean Task Days"), help_text=_("In days"), null=True, blank=True
+    )
+    packages_to_clean_count = models.IntegerField(
+        verbose_name=_("Packages To Clean Count"), help_text=_("Number of packages to clean"), null=True, blank=True
+    )
 
     history = AuditlogHistoryField()
 

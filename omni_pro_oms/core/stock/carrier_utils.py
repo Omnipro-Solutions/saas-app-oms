@@ -8,7 +8,5 @@ class CarrierSaveGuideApi:
         self.api_client = api_client
 
     def save_guide(self, **kwargs):
-        data = self.api_client.call_api(
-            method="POST", endpoint=endpoint_save_guide, **kwargs
-        )
-        return data.get("guide")
+        data = self.api_client.call_api(method="POST", endpoint=endpoint_save_guide, **kwargs)
+        return data.get("response_standard")
