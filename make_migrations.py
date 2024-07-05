@@ -22,6 +22,7 @@ THIRD_PARTY_APPS = [
     "rest_framework",
     "auditlog",
     "django_json_widget",
+    "import_export",
 ]
 
 LOCAL_APPS = [
