@@ -31,6 +31,7 @@ class ApiClient:
         from omni_pro_oms.core.stock.picking import PickingApi
         from omni_pro_oms.core.stock.warehouse import WarehouseApi
         from omni_pro_oms.core.utilities.file_record import FileRecordApi
+        from omni_pro_oms.core.catalog.product_integration import ProductIntegrationApi
 
         self.order = OrderApi(self)
         self.picking = PickingApi(self)
@@ -47,6 +48,7 @@ class ApiClient:
         self.order_line = OrderLineApi(self)
         self.tax = TaxApi(self)
         self.family = FamilyApi(self)
+        self.product_integration = ProductIntegrationApi(self)
 
     def call_api(
         self, method: str, endpoint: str, raise_status: bool = True, response_is_json: bool = True, **kwargs
