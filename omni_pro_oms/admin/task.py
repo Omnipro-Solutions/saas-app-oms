@@ -2,12 +2,33 @@ import django
 from django.contrib import admin
 from django.urls import resolve
 from django.utils.translation import gettext_lazy as _
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 from omni_pro_base.admin import BaseAdmin
 from omni_pro_oms.forms import TaskAdminForm
 from omni_pro_oms.models import Task
 from rangefilter.filters import DateRangeFilter
 from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory
+
+
+class TaskResource(resources.ModelResource):
+    class Meta:
+        model = Task
+        fields = (
+            "id",
+            "item",
+            "created_at",
+            "tenant_id",
+            "operation_id",
+            "tenant_operation_id",
+            "status",
+            "url_src",
+            "url_dst",
+            "time",
+            "updated_at",
+        )
+        export_order = fields
 
 
 class BuilderDateRangeFilter(DateRangeFilter):
@@ -20,7 +41,9 @@ class BuilderDateRangeFilter(DateRangeFilter):
         return form_class(self.used_parameters or None)
 
 
-class TaskAdmin(BaseAdmin):
+class TaskAdmin(ImportExportModelAdmin, BaseAdmin):
+    resource_class = TaskResource
+
     list_display = (
         "item",
         "created_at",
