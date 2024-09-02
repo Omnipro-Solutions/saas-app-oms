@@ -11,6 +11,7 @@ def call_request(tenant_operation: TenantOperation, **kwargs):
     headers = tenant_operation.operation_id.headers or {}
     config = tenant_operation.config_id
     operation = tenant_operation.operation_id
+    method = kwargs.get("method") if kwargs.get("method", None) else operation.http_method
     endpoint_url = (
         kwargs.pop("endpoint_url")
         if kwargs.get("endpoint_url")
@@ -21,7 +22,7 @@ def call_request(tenant_operation: TenantOperation, **kwargs):
 
     kwargs.update(
         {
-            "method": operation.http_method,
+            "method": method,
             "url": url,
             "headers": headers,
         }
