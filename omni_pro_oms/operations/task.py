@@ -1,22 +1,42 @@
 from omni_pro_oms.models import Operation, OperationType, Task, Tenant, TenantOperation
 from rest_framework.request import Request
-from urllib3 import HTTPResponse
 
 
 class TaskOperation:
 
     @classmethod
-    def create_task_from_request(cls, request: Request, tenant_operation: TenantOperation) -> Task:
+    def create_task_from_request(cls, request: Request, tenant_operation: TenantOperation):
+        tasks = []
+
+        if isinstance(request, Request):
+            if isinstance(request.data, list):
+                data_list = request.data
+            else:
+                return cls._create_single_task(request, tenant_operation, request.data)
+        elif isinstance(request, dict) and isinstance(request.get("data"), list):
+            data_list = request.get("data")
+        else:
+            raise ValueError("Request data is not a list or a valid object")
+
+        for data_item in data_list:
+            task = cls._create_single_task(request, tenant_operation, data_item)
+            tasks.append(task)
+
+        return tasks
+
+    @staticmethod
+    def _create_single_task(request: Request, tenant_operation: TenantOperation, data_item) -> Task:
         name = f"{tenant_operation.operation_type_id.name} {tenant_operation.tenant_id.name}"
+
         task = Task.objects.create(
             name=name,
             tenant_id=tenant_operation.tenant_id,
             operation_id=tenant_operation.operation_id,
             tenant_operation_id=tenant_operation,
             status="waiting",
-            body_src=request.data if request else "",
-            headers_src=request.headers._store if request else "",
-            params_src=request.query_params if request else "",
+            body_src=data_item,
+            headers_src=dict(request.headers) if request else {},
+            params_src=request.query_params if request else {},
             response_src={"success": True, "message": None},
             url_src=request.path if request and request.path else "",
             body_dst="",
