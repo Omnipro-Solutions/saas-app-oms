@@ -13,10 +13,12 @@ class TaskOperation:
                 data_list = request.data
             else:
                 return cls._create_single_task(request, tenant_operation, request.data)
-        elif isinstance(request, dict) and isinstance(request.get("data"), list):
-            data_list = request.get("data")
+
         elif request is None:
             return cls._create_single_task(request, tenant_operation, None)
+
+        elif isinstance(request, dict) and isinstance(request.get("data"), list):
+            data_list = request.get("data")
 
         for data_item in data_list:
             task = cls._create_single_task(request, tenant_operation, data_item)
