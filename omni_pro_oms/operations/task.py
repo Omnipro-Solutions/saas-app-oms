@@ -15,8 +15,8 @@ class TaskOperation:
                 return cls._create_single_task(request, tenant_operation, request.data)
         elif isinstance(request, dict) and isinstance(request.get("data"), list):
             data_list = request.get("data")
-        else:
-            raise ValueError("Request data is not a list or a valid object")
+        elif request is None:
+            return cls._create_single_task(request, tenant_operation, None)
 
         for data_item in data_list:
             task = cls._create_single_task(request, tenant_operation, data_item)
