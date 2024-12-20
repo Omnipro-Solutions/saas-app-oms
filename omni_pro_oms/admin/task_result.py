@@ -25,14 +25,12 @@ class CustomTaskResultAdmin(TaskResultAdmin):
     def oms_task(self, obj):
         try:
             if obj.task_args:
-                print(f"task_args crudo: {repr(obj.task_args)}")
-                task_args = obj.task_args.strip('"')
+                task_args = obj.task_args.strip('"').strip()
+                task_args = task_args.strip("()").split(",")
 
-                task_args = task_args.replace("(", "").replace(")", "").replace(",", "").strip()
-                task_args = "".join(task_args.split())
-
-                if task_args.isdigit():
-                    url = reverse("admin:omni_pro_oms_task_change", args=[int(task_args)])
+                task_id = task_args[0].strip() if len(task_args) > 0 else None
+                if task_id and task_id.isdigit():
+                    url = reverse("admin:omni_pro_oms_task_change", args=[int(task_id)])
                     return format_html('<a href="{}" target="_blank">Ver Task</a>', url)
 
             return "No disponible"
