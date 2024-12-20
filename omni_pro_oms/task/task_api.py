@@ -8,8 +8,11 @@ from requests import Response
 
 class TaskApi(ApiClient):
 
-    def __init__(self, task_id: int, timeout=30) -> None:
+    def __init__(self, task_id: int, celery_task_id: str = None, timeout=30) -> None:
         self.task: Task = self._get_task(task_id)
+        if celery_task_id:
+            self._update_celery_task_id(celery_task_id)
+
         super().__init__(tenant=self.task.tenant_id, timeout=timeout)
 
     def _get_task(self, task_id: int):
@@ -37,6 +40,11 @@ class TaskApi(ApiClient):
         self.task.time = time_request
         self.task.status = self.get_task_status_from_request_status_code([response.status_code])
         self.task.item = item
+        self.task.save()
+
+    def _update_celery_task_id(self, celery_task_id: str) -> None:
+        """Actualiza el ID de la tarea de Celery en el modelo Task."""
+        self.task.celery_task_id = celery_task_id
         self.task.save()
 
     def get_task_status_from_request_status_code(self, status_codes):

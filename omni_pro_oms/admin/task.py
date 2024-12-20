@@ -27,6 +27,7 @@ class TaskResource(resources.ModelResource):
             "url_dst",
             "time",
             "updated_at",
+            "celery_task_id",
         )
         export_order = fields
 
@@ -45,6 +46,8 @@ class TaskAdmin(ImportExportModelAdmin, BaseAdmin):
     resource_class = TaskResource
 
     list_display = (
+        "id",
+        "celery_task_id",
         "item",
         "created_at",
         "tenant_id",
@@ -71,7 +74,7 @@ class TaskAdmin(ImportExportModelAdmin, BaseAdmin):
         self.fieldsets = (
             (
                 _("Required Information"),
-                {"fields": ("name", "tenant_id", "operation_id", "status", "time", "item")},
+                {"fields": ("name", "tenant_id", "operation_id", "status", "time", "item", "celery_task_id")},
             ),
             (
                 _("Source Info"),
