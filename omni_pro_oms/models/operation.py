@@ -32,6 +32,16 @@ class Operation(OmniModel):
         AUTH1 = "auth1"
         CUSTOM = "custom"
 
+    SCORE_PRIORITY_MAP = {
+        "low": 1,
+        "medium": 5,
+        "high": 9,
+        "critical": 10,
+    }
+
+    def get_score_priority(self):
+        return self.SCORE_PRIORITY_MAP.get(self.score)
+
     name = models.CharField(max_length=255, verbose_name=_("Name"))
     destination = models.CharField(max_length=255, verbose_name=_("Destination"))
     score = models.CharField(
