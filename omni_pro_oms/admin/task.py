@@ -126,5 +126,19 @@ class TaskAdmin(ImportExportModelAdmin, BaseAdmin):
 
     actions = [retry_task]
 
+    def save_model(self, request, obj, form, change):
+        """
+        Overrides the save_model method to set a custom attribute before saving the model.
+        Args:
+            request (HttpRequest): The current request object.
+            obj (Model): The model instance being saved.
+            form (ModelForm): The form instance used to create or update the model.
+            change (bool): A flag indicating whether the model is being changed (True) or added (False).
+        """
+
+        if change:
+            obj._admin_panel = True
+        super().save_model(request, obj, form, change)
+
 
 admin.site.register(Task, TaskAdmin)
