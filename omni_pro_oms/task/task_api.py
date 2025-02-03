@@ -1,5 +1,7 @@
 import json
+import time
 
+from django.core.exceptions import ObjectDoesNotExist
 from omni_pro_oms import utils
 from omni_pro_oms.core.api_client import ApiClient
 from omni_pro_oms.models import Task
@@ -9,14 +11,34 @@ from requests import Response
 class TaskApi(ApiClient):
 
     def __init__(self, task_id: int, celery_task_id: str = None, timeout=30) -> None:
-        self.task: Task = self._get_task(task_id)
+        # self.task: Task = self._get_task(task_id)
+        self.task: Task = TaskApi.get_task_with_retry(task_id)
         if celery_task_id:
             self._update_celery_task_id(celery_task_id)
-
+            
         super().__init__(tenant=self.task.tenant_id, timeout=timeout)
 
     def _get_task(self, task_id: int):
         return Task.objects.get(id=task_id)
+
+    @classmethod
+    def get_task_with_retry(cls, task_id, max_retries=5, initial_delay=2):
+        """Intenta obtener la tarea con reintentos y retraso progresivo."""
+        for attempt in range(1, max_retries + 1):
+            try:
+                task = Task.objects.get(id=task_id)
+                return task
+            except Task.DoesNotExist:
+                # calculo del retraso
+                retry_delay = initial_delay + attempt
+                if attempt < max_retries:
+                    print(
+                        f"Tarea {task_id} no encontrada. Reintentando en {retry_delay} segundos (intento {attempt}/{max_retries})..."
+                    )
+                    time.sleep(retry_delay)
+                else:
+                    print(f"Tarea {task_id} no encontrada después de {max_retries} intentos.")
+                    raise ObjectDoesNotExist(f"Tarea {task_id} no encontrada después de {max_retries} intentos.")
 
     def call_request(self, update_task: bool = False, **kwargs) -> Response:
         if not kwargs.get("timeout"):
