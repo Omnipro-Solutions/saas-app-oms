@@ -51,6 +51,9 @@ class Operation(OmniModel):
     packages_to_clean_count = models.IntegerField(
         verbose_name=_("Packages To Clean Count"), help_text=_("Number of packages to clean"), null=True, blank=True
     )
+    picking_state = models.BooleanField(
+        verbose_name=_("Picking State"), help_text=_("If the operation is in picking state"), default=False
+    )
 
     history = AuditlogHistoryField()
 

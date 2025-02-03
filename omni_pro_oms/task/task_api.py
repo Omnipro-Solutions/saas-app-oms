@@ -65,9 +65,25 @@ class TaskApi(ApiClient):
         successful = all(status >= 200 and status < 300 for status in status_codes)
         unsuccessful = all(status >= 400 for status in status_codes)
 
+        if self.task.operation_id.picking_state:
+            self.update_status_picking_operation(status_codes)
+
         if successful and not unsuccessful:
             return "success"
         elif unsuccessful and not successful:
             return "error"
         else:
             return "partial_success"
+
+    def update_status_picking_operation(self, status_code):
+        picking = self.task.body_src
+        if picking.get("picking_integration_operations", []):
+            payload = {
+                "picking_id": int(picking.get("id")),
+                "code": self.task.operation_id.name,
+                "status": "SUCCESS" if status_code == 200 else "ERROR",
+                "message": (
+                    f"{self.task.operation_id.name} enviado correctamente" if status_code == 200 else "Error al enviar"
+                ),
+            }
+            self.integration_operation.put_api(json=payload)
