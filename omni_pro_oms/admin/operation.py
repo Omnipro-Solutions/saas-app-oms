@@ -16,7 +16,18 @@ class OperationAdmin(BaseAdmin):
         self.fieldsets = (
             (
                 _("Required Information"),
-                {"fields": ("name", "destination", "score", "endpoint_url", "http_method", "timeout", "auth_type")},
+                {
+                    "fields": (
+                        "name",
+                        "destination",
+                        "score",
+                        "endpoint_url",
+                        "http_method",
+                        "timeout",
+                        "auth_type",
+                        "picking_state",
+                    )
+                },
             ),
             (
                 _("Optional Information"),
@@ -25,6 +36,16 @@ class OperationAdmin(BaseAdmin):
             (
                 _("Clean Task"),
                 {"fields": ("success_clean_task_days", "other_clean_task_days", "packages_to_clean_count")},
+            ),
+            (
+                _("Notifications"),
+                {
+                    "fields": (
+                        "active_notifications",
+                        "emails",
+                        "status_notifications",
+                    )
+                },
             ),
         ) + self.fieldsets
 

@@ -27,6 +27,7 @@ class TaskResource(resources.ModelResource):
             "url_dst",
             "time",
             "updated_at",
+            "celery_task_id",
         )
         export_order = fields
 
@@ -45,6 +46,8 @@ class TaskAdmin(ImportExportModelAdmin, BaseAdmin):
     resource_class = TaskResource
 
     list_display = (
+        "id",
+        "celery_task_id",
         "item",
         "created_at",
         "tenant_id",
@@ -71,7 +74,7 @@ class TaskAdmin(ImportExportModelAdmin, BaseAdmin):
         self.fieldsets = (
             (
                 _("Required Information"),
-                {"fields": ("name", "tenant_id", "operation_id", "status", "time", "item")},
+                {"fields": ("name", "tenant_id", "operation_id", "status", "time", "item", "celery_task_id")},
             ),
             (
                 _("Source Info"),
@@ -125,6 +128,20 @@ class TaskAdmin(ImportExportModelAdmin, BaseAdmin):
             self.message_user(request, f"Error: {str(e)}", 40)
 
     actions = [retry_task]
+
+    def save_model(self, request, obj, form, change):
+        """
+        Overrides the save_model method to set a custom attribute before saving the model.
+        Args:
+            request (HttpRequest): The current request object.
+            obj (Model): The model instance being saved.
+            form (ModelForm): The form instance used to create or update the model.
+            change (bool): A flag indicating whether the model is being changed (True) or added (False).
+        """
+
+        if change:
+            obj._admin_panel = True
+        super().save_model(request, obj, form, change)
 
 
 admin.site.register(Task, TaskAdmin)

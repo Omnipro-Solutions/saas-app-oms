@@ -1,8 +1,16 @@
 from auditlog.models import AuditlogHistoryField
 from auditlog.registry import auditlog
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from omni_pro_base.models import OmniModel
+
+STATUS_CHOICES = (
+    ("waiting", "Waiting"),
+    ("error", "Error"),
+    ("success", "Success"),
+    ("partial_success", "Partial Success"),
+)
 
 
 class Operation(OmniModel):
@@ -50,6 +58,17 @@ class Operation(OmniModel):
     )
     packages_to_clean_count = models.IntegerField(
         verbose_name=_("Packages To Clean Count"), help_text=_("Number of packages to clean"), null=True, blank=True
+    )
+    active_notifications = models.BooleanField(verbose_name=_("Active Notifications"), default=False)
+    emails = ArrayField(models.EmailField(), blank=True, default=list, verbose_name=_("Emails"))
+    status_notifications = models.CharField(
+        choices=STATUS_CHOICES,
+        max_length=256,
+        default="error",
+        verbose_name=_("Status Notifications"),
+    )
+    picking_state = models.BooleanField(
+        verbose_name=_("Picking State"), help_text=_("If the operation is in picking state"), default=False
     )
 
     history = AuditlogHistoryField()
