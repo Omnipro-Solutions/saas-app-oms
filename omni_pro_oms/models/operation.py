@@ -67,6 +67,9 @@ class Operation(OmniModel):
         default="error",
         verbose_name=_("Status Notifications"),
     )
+    picking_state = models.BooleanField(
+        verbose_name=_("Picking State"), help_text=_("If the operation is in picking state"), default=False
+    )
 
     history = AuditlogHistoryField()
 
