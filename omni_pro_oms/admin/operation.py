@@ -37,6 +37,16 @@ class OperationAdmin(BaseAdmin):
                 _("Clean Task"),
                 {"fields": ("success_clean_task_days", "other_clean_task_days", "packages_to_clean_count")},
             ),
+            (
+                _("Notifications"),
+                {
+                    "fields": (
+                        "active_notifications",
+                        "emails",
+                        "status_notifications",
+                    )
+                },
+            ),
         ) + self.fieldsets
 
 
