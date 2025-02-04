@@ -50,6 +50,7 @@ class Task(OmniModel):
     url_dst = models.CharField(max_length=256, verbose_name=_("URL Destination"), blank=True, null=True)
     time = models.IntegerField(verbose_name=_("Time"), help_text=_("In milliseconds"), blank=True, null=True)
     item = models.CharField(_("Item"), max_length=256, blank=True, null=True)
+    celery_task_id = models.CharField(max_length=256, verbose_name=_("Celery Task ID"), blank=True, null=True)
 
     history = AuditlogHistoryField()
 
