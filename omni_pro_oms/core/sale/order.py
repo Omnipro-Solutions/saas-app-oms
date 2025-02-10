@@ -14,7 +14,7 @@ class OrderApi:
                 return data
             return data.get("orders")
         except Exception as e:
-            raise {"error": str(e)}
+            raise Exception(f"Error getting orders: {e}")
 
     def put_api(self, **kwargs):
         try:
@@ -23,4 +23,4 @@ class OrderApi:
                 return data
             return data.get("order")
         except Exception as e:
-            raise {"error": str(e)}
+            raise Exception(f"Error putting orders: {e}")
