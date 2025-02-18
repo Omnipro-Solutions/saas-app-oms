@@ -5,7 +5,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("omni_pro_oms", "0004_operation_other_clean_task_days_and_more"),
+        ("omni_pro_oms", "0005_operation_picking_state"),
     ]
 
     operations = [
