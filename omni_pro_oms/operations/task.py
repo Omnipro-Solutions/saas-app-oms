@@ -1,11 +1,14 @@
-from omni_pro_oms.models import Operation, OperationType, Task, Tenant, TenantOperation
 from rest_framework.request import Request
+
+from omni_pro_oms.models import Operation, OperationType, Task, Tenant, TenantOperation
 
 
 class TaskOperation:
-
     @classmethod
-    def create_task_from_request(cls, request: Request, tenant_operation: TenantOperation):
+    def create_task_from_request(cls, request: Request, tenant_operation: TenantOperation, single_task=True):
+        if single_task:
+            return cls._create_single_task(request, tenant_operation, request.data)
+
         tasks = []
 
         if isinstance(request, Request):
