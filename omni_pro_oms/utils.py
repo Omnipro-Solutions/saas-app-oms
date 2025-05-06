@@ -47,7 +47,9 @@ def call_request(tenant_operation: TenantOperation, **kwargs):
     return requests.request(**kwargs)
 
 
-def call_api_authenticate(credential_info: dict = {}):
+def call_api_authenticate(credential_info: dict = None):
+    if credential_info is None:
+        credential_info = {}
     grant_type = credential_info.get("grant_type", None)
     access_token_url = credential_info.get("token_url", None)
     client_id = credential_info.get("client_id", None)
