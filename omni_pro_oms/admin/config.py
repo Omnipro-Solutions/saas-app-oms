@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from omni_pro_base.admin import BaseAdmin
-
 from omni_pro_oms.forms import ConfigAdminForm
 from omni_pro_oms.models import Config
 
@@ -17,7 +16,7 @@ class ConfigAdmin(BaseAdmin):
         self.fieldsets = (
             (_("Config"), {"fields": ("name", "base_url")}),
             (_("Auth"), {"fields": ("auth",)}),
-            (_("Token"), {"fields": ("token",)}),
+            (_("Token"), {"fields": ("token", "expires_in", "expires_at")}),
         ) + self.fieldsets
 
 
