@@ -5,6 +5,9 @@ from omni_pro_oms.models.task import Task
 from omni_pro_oms.models.tenant import Tenant
 from omni_pro_oms.models.tenant_operation import TenantOperation
 from requests_oauthlib import OAuth1
+from django.urls import resolve
+from rest_framework.request import Request
+from rest_framework.test import APIRequestFactory
 
 
 def call_request(tenant_operation: TenantOperation, **kwargs):
@@ -44,3 +47,21 @@ def call_request(tenant_operation: TenantOperation, **kwargs):
         headers["Authorization"] = config.token
 
     return requests.request(**kwargs)
+
+
+def retry_task_single(task):
+    if task.status not in ["error", "waiting"]:
+        return
+
+    task_view = resolve(task.url_src)
+    view = task_view.func.view_class()
+    factory = APIRequestFactory()
+
+    method = task.operation_id.http_method.lower()
+    request_rest = getattr(factory, method)(task.url_src, task.body_src, content_type="application/json")
+
+    request_rest = Request(request_rest, parsers=[view.parser_classes[0]])
+    request_rest._full_data = task.body_src
+
+    view_method = getattr(view, method)
+    view_method(request=request_rest, **task_view.kwargs)

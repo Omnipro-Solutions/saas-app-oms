@@ -62,7 +62,7 @@ class TaskApi(ApiClient):
         self.task.time = time_request
         self.task.status = self.get_task_status_from_request_status_code([response.status_code])
         self.task.item = item
-        self.task.save()
+        self.task.save(update_fields=["url_dst", "headers_dst", "body_dst", "response_dst", "time", "status", "item"])
 
     def _update_celery_task_id(self, celery_task_id: str) -> None:
         """Actualiza el ID de la tarea de Celery en el modelo Task."""
