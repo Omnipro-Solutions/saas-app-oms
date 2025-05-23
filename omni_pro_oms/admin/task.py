@@ -1,6 +1,5 @@
 import django
 from django.contrib import admin
-from django.urls import resolve
 from django.utils.translation import gettext_lazy as _
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
@@ -8,9 +7,7 @@ from omni_pro_base.admin import BaseAdmin
 from omni_pro_oms.forms import TaskAdminForm
 from omni_pro_oms.models import Task
 from rangefilter.filters import DateRangeFilter
-from rest_framework.request import Request
-from rest_framework.test import APIRequestFactory
-
+from omni_pro_oms.utils import retry_task_single
 
 class TaskResource(resources.ModelResource):
     class Meta:
@@ -105,23 +102,7 @@ class TaskAdmin(ImportExportModelAdmin, BaseAdmin):
     def retry_task(self, request, queryset):
         try:
             for task in queryset:
-                if task.status != "error":
-                    continue
-                task_view = resolve(task.url_src)
-                view = task_view.func.view_class()
-                factory = APIRequestFactory()
-
-                # Crea la solicitud con el diccionario JSON y el método HTTP especificado
-                method = task.operation_id.http_method.lower()
-                request_rest = getattr(factory, method)(task.url_src, task.body_src, content_type="application/json")
-
-                # Convertimos HttpRequest a una instancia de Request
-                request_rest = Request(request_rest, parsers=[view.parser_classes[0]])
-                request_rest._full_data = task.body_src
-
-                # Llamamos al método dinámico de la vista
-                view_method = getattr(view, method)
-                view_method(request=request_rest, **task_view.kwargs)
+                retry_task_single(task)
                 return self.message_user(request, "Task retried successfully.")
         except Exception as e:
             print(str(e))
